@@ -1,0 +1,23 @@
+{% extends "main.html" %}
+{% block content %}
+
+<div class="container-fluid">
+  <div class="well col-md-10 col-md-offset-1">
+    
+                <h2>Edit Item</h2>
+
+        <div class="buttons">
+            {% if editFeatures == "true" %}
+                <a class='btn' href = "{{url_for('editItem', item_escaped = item.name)}}">Edit</a>
+                <a class='btn' href = "{{url_for('deleteItem', item_escaped = item.name)}}">Delete</a>
+            {% endif %}
+            {% if editFeatures == "false" %}
+                <p>log in!</p>
+            {% endif %}
+      </div>
+     
+  </div>
+</div>
+
+{% endblock %}
+
