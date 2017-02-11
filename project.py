@@ -140,27 +140,30 @@ def showCatalog():
     login_session['state'] = state
     categories = session.query(Category).order_by(asc(Category.name))
     items = session.query(Item).order_by(asc(Item.name))
-    return render_template('catalog.html', categories=categories, items=items, STATE=state)
+    if 'username' in login_session: 
+        return render_template('catalog.html', categories=categories, items=items, STATE=state, loggedin="true")
+    else:
+        return render_template('catalog.html', categories=categories, items=items, STATE=state, loggedin="false")
     
 
 # Create a new item
-@app.route('/catalog/<string:category_escaped>/newitem', methods=['GET', 'POST'])    
-def newItem(category_escaped):
-    if 'username' in login_session: 
+@app.route('/catalog/newitem', methods=['GET', 'POST'])    
+def newItem():
+    if 'username' not in login_session: 
         return redirect('/')
     
-    category_name = category_escaped.replace("%20", " ")
-    category = session.query(Category).filter_by(name=category_name).one()
+    allcategories = session.query(Category).order_by(asc(Category.name))
     
     if request.method == 'POST':
+        category = session.query(Category).filter_by(name=request.form['category']).one()
         newItem = Item(name=request.form['name'], description=request.form[
-                           'description'], category_id=category.id)
+                           'description'], category_id = category.id)
         session.add(newItem)
         session.commit()
 
         return redirect(url_for('showCatalog'))
     else:
-        return render_template('newitem.html', category_id=category.id)
+        return render_template('newitem.html', allcategories=allcategories)
                         
                         
 # Show items for a category
@@ -203,10 +206,11 @@ def editItem(item_escaped):
     item_name = item_escaped.replace("%20", " ")
     editedItem = session.query(Item).filter_by(name=item_name).one()
     category = session.query(Category).filter_by(id=editedItem.category_id).one()
+    allcategories = session.query(Category).order_by(asc(Category.name))
     
     if request.method == 'POST':
-        if request.form['title']:
-            editedItem.name = request.form['title']
+        if request.form['name']:
+            editedItem.name = request.form['name']
         if request.form['description']:
             editedItem.description = request.form['description']
         if request.form['category']:
@@ -218,20 +222,20 @@ def editItem(item_escaped):
         return redirect(url_for('showCatalog'))
     else:
         if 'username' in login_session: 
-            return render_template('edititem.html', item=editedItem, category=category, editFeatures="true")
+            return render_template('edititem.html', item=editedItem, category=category, allcategories=allcategories, editFeatures="true")
     
         else:
-            return render_template('edititem.html', item=editedItem, category=category, editFeatures="false")
+            return render_template('edititem.html', item=editedItem, category=category, allcategories=allcategories, editFeatures="false")
 
 
 # Delete item
 @app.route('/catalog/<string:item_escaped>/delete/', methods=['GET', 'POST'])
 def deleteItem(item_escaped):
+    if 'username' not in login_session: 
+        return redirect('/')
+
     item_name = item_escaped.replace("%20", " ")
     item = session.query(Item).filter_by(name=item_name).one()
-    
-    if 'username' not in login_session: 
-        return redirect(url_for('/catalog'))
 
     if request.method == 'POST':
         session.delete(item)

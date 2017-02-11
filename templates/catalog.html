@@ -26,6 +26,10 @@
 
                 {% endfor %}
                 </ul>
+                {% if loggedin == "true" %}
+                    <a href = "{{url_for('newItem')}}">
+						  Add Item</a>
+                {% endif %}
             </div>
       </div>
      

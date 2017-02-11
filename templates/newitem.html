@@ -4,27 +4,22 @@
 <div class="container-fluid">
   <div class="well col-md-10 col-md-offset-1">
     
-                <h2>Edit Item</h2>
+                <h2>Add Item</h2>
 
         <div>
-            {% if editFeatures == "true" %}
                 <form action="#" method = "post">
 				<div class="form-group">
 					<label for="name">Name:</label>
-					<input type ="text" maxlength="100" class="form-control" name="name" value="{{item.name }}">
+					<input type ="text" maxlength="100" class="form-control" name="name">
 
 					<label for="description">Description:</label>
-					<textarea class="form-control" maxlength="250" rows="3" name="description">{{item.description}}</textarea>
+					<textarea class="form-control" maxlength="250" rows="3" name="description"></textarea>
 
 					<div class="input-group">
                             <label for="category">Category:</label>
                             <select class="form-control" name="category">
                                 {% for c in allcategories %}
-                                    {% if category.name == c.name %}
-                                        <option selected>{{c.name}}</option>
-                                    {% else %}
                                         <option>{{c.name}}</option>
-                                    {% endif %}
                                 {% endfor %}
                             </select>
                     </div>
@@ -38,7 +33,6 @@
 					</a>
 				</div>
 			</form>
-            {% endif %}
       </div>
      
   </div>
