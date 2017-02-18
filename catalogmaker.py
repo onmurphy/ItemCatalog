@@ -19,6 +19,7 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
+# sample categories and items
 
 category1 = Category(name = "Soccer")
 
@@ -31,7 +32,7 @@ item1 = Item(name = "Soccer ball", description = "fun stuff", category = categor
 session.add(item1)
 session.commit()
 
-item2 = Item(name = "Soccer cleats", description = "shoes!", category = category1)
+item2 = Item(name = "Soccer cleats", description = "shoes!", author = "test", category = category1)
 
 session.add(item2)
 session.commit()
@@ -45,12 +46,12 @@ category2 = Category(name = "Baseball")
 session.add(category2)
 session.commit()
 
-item1 = Item(name = "baseball glove", description = "helps you catch a ball!", category = category2)
+item1 = Item(name = "baseball glove", description = "helps you catch a ball!", author = "test", category = category2)
 
 session.add(item1)
 session.commit()
 
-item2 = Item(name = "baseball bat", description = "hit it out of the park!", category = category2)
+item2 = Item(name = "baseball bat", description = "hit it out of the park!", author = "test", category = category2)
 
 session.add(item2)
 session.commit()
@@ -61,7 +62,7 @@ category3 = Category(name = "Basketball")
 session.add(category3)
 session.commit()
 
-item1 = Item(name = "net", description = "hoop sold separately", category = category3)
+item1 = Item(name = "net", description = "hoop sold separately", author = "test", category = category3)
 
 session.add(item1)
 session.commit()
@@ -73,7 +74,7 @@ session.add(category4)
 session.commit()
 
 
-item1 = Item(name = "pads", description = "protect yourself from injury", category = category4)
+item1 = Item(name = "pads", description = "protect yourself from injury", author = "test", category = category4)
 
 session.add(item1)
 session.commit()
